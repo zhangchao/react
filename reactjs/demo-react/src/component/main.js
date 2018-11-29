@@ -9,6 +9,7 @@ import {
   Input,
 } from 'semantic-ui-react';
 
+import Display from './display'
 import './main.css';
 
 const style = {
@@ -31,13 +32,15 @@ class Main extends Component {
   constructor() {
     super();
     this.state  = {
-      birthday : '1980-06-07'
+      birthday : '1980-06-07',
+      newDate : '',
+      flag : false
     }
   }
 
   changeBirthday(event){
     console.log(this.state)
-    this.setState({ birthday: event.target.value })
+    this.setState({ birthday: event.target.value ,flag :true })
   }
 
   render() {
@@ -50,17 +53,30 @@ class Main extends Component {
     <Segment>
     <Form>
       <Form.Field>
-        <Input action={{ icon: 'search' }} placeholder={this.state.birthday} onChange={ event => this.changeBirthday(event)}/>
+        <Input action={{ icon: 'search' }}
+          placeholder={this.state.birthday}
+          onChange={ event => this.setState({ newDate: event.target.value })}/>
       </Form.Field>
       <Form.Field>
         <label>Last Name</label>
-        <input placeholder='Last Name' value={this.state.birthday}/>
+        <input placeholder='Last Name' />
       </Form.Field>
       <Form.Field>
         <Checkbox label='I agree to the Terms and Conditions' />
       </Form.Field>
-      <Button type='submit'>Submit</Button>
+      <Button type='submit' onClick={ event => this.changeBirthday(event)}>Submit</Button>
     </Form>
+    </Segment>
+    <Segment>
+      {
+        this.state.flag ?
+         <div>
+            <Display date={this.state.newDate}></Display>
+         </div>
+         :
+         <div>Chao</div>
+      }
+
     </Segment>
   </Segment.Group>
 </Container>
